@@ -363,8 +363,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.01
   maxSpeed: 0.1
-  par: 1.0025
+  par: 1.5
   goal: 50
+  timer: 0
 --- !u!45 &366583515
 Skybox:
   m_ObjectHideFlags: 0
@@ -899,7 +900,6 @@ MonoBehaviour:
   jumpForce: 250
   jumpSpeed: 5
   jumpLimit: 2
-  death_Jump: 25
   HP: 3
   jumpCount: 0
   secondJump: 0
