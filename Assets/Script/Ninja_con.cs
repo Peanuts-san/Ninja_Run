@@ -13,7 +13,6 @@ public class Ninja_con : MonoBehaviour
     public float jumpForce = 680.0f;
     public float jumpSpeed = 5;
     public int jumpLimit = 2;
-    public float death_Jump = 10.0f;
 
     public int HP = 3;
     public int jumpCount = 0;
@@ -140,7 +139,7 @@ public class Ninja_con : MonoBehaviour
     // ’¹‚É‚Ô‚Â‚©‚é
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "bird")
+        if (collision.gameObject.tag == "bird" && !this.isDamage)
         {
             Debug.Log("bird");
             this.animator.SetBool("isHit", true);
