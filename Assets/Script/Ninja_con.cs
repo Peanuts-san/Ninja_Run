@@ -23,6 +23,8 @@ public class Ninja_con : MonoBehaviour
     float death_X;
     public bool dead = false;
     public bool isDamage = false;
+    public bool isArea;
+
 
     // Start is called before the first frame update
     void Start()
@@ -180,5 +182,15 @@ public class Ninja_con : MonoBehaviour
     {
         this.dead = true;
         this.canPlay = false;
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "DangerArea") isArea = true;
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "DangerArea") isArea = false;
     }
 }
