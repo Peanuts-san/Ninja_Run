@@ -19,6 +19,8 @@ public class Manager_con : MonoBehaviour
 
     public bool play = false;
 
+    bool ninja_dead;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,7 @@ public class Manager_con : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        this.ninja_dead = this.ninja.getDead();
         if (this.pre_CountDown >= 0)
         {
             this.pre_CountDown -= Time.deltaTime;
@@ -61,7 +64,7 @@ public class Manager_con : MonoBehaviour
 
                     this.TEXT.text = null;
                 }
-                else if (this.ninja.dead)
+                else if (this.ninja_dead)
                 {
                     Debug.Log("You Died!");
                     this.TEXT.text = "You Died!";
