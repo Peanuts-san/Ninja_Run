@@ -71,6 +71,7 @@ public class Ninja_con : MonoBehaviour
             // ƒ]ƒ“ƒr
             if (death_Time >= 120.0f)
             {
+                Debug.Log("Zombi");
                 this.dead = true;
             }
         }
@@ -88,15 +89,18 @@ public class Ninja_con : MonoBehaviour
         if (this.death_X > 0)
         {
             dis = death_X - camera_X;
+            Debug.Log(dis);
         }
         if (dis <= -10)
         {
+            Debug.Log("shototu desu");
             setDeath();
         }
 
         // —Ž‰ºŽ€
         if (transform.position.y < -10.0f)
         {
+            Debug.Log("rakka desu");
             setDeath();
             this.animator.SetBool("isHit", true);
         }
@@ -150,6 +154,7 @@ public class Ninja_con : MonoBehaviour
             }
             else
             {
+                Debug.Log("tori desu");
                 setDeath();
             }
         }

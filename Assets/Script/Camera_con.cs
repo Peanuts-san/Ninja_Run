@@ -15,11 +15,14 @@ public class Camera_con : MonoBehaviour
 
     public float goal = 50.0f;
 
+    public float timer;
+
     // Start is called before the first frame update
     void Start()
     {
         this.ninja = (GameObject.Find("Ninja")).GetComponent<Ninja_con>();
         this.manager = (GameObject.Find("Manager")).GetComponent<Manager_con>();
+        this.timer = 0.0f;
     }
 
     // Update is called once per frame
@@ -29,6 +32,7 @@ public class Camera_con : MonoBehaviour
         this.dead = ninja.getDead();
         if (this.manager.play)
         {
+            this.timer += Time.deltaTime;
             if (this.dead)
             {
                 this.speed *= 0;
@@ -38,7 +42,11 @@ public class Camera_con : MonoBehaviour
             {
                 if (speed < maxSpeed)
                 {
-                    speed *= par;
+                    if (this.timer >= 1.0f)
+                    {
+                        speed *= par;
+                        this.timer = 0.0f;
+                    }
                 }
             }
             else
