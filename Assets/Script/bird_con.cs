@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class bird_con : MonoBehaviour
 {
-    private GameObject target;
+    public Transform target;
     public float speed;
+    Vector3 posB;
+    Vector3 posN;
+    Rigidbody2D rb;
+    Vector3 force;
+
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        force = new Vector3(-10.0f, 0.0f, 0.0f);
         speed = 0.05f;
-        target = GameObject.Find("Ninja");
+        target = GameObject.Find("Ninja").transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (target.GetComponent<Ninja_con>().isArea == true)
+        posB = this.transform.position; //é©êgÇÃà íu
+        posN = target.position; //îEé“ÇÃà íu
+        float distance = Vector3.Distance(posB, posN); //îEé“Ç∆ÇÃãóó£
+        if (distance < 5.0f)
         {
-            Debug.Log("circle isArea");
-            GetComponent<Renderer>().material.color = Color.red;
-            transform.LookAt(target.transform);
-            transform.position += transform.forward * speed;
-        }
-
-        else
-        {
-            Debug.Log("circle !isArea");
-            GetComponent<Renderer>().material.color = Color.white;
+            Debug.Log("near");
+            rb.AddForce(force);
         }
     }
 }
