@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ninja_con : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class Ninja_con : MonoBehaviour
 
     Camera_con camera;
     Manager_con manager;
+
+    Text text;
+    public GameObject dis_HP = null;
 
     public float jumpForce = 680.0f;
     public float jumpSpeed = 5;
@@ -25,6 +29,7 @@ public class Ninja_con : MonoBehaviour
     public bool isDamage = false;
     public bool isArea;
 
+    float death_Time = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -33,11 +38,13 @@ public class Ninja_con : MonoBehaviour
         this.animator = GetComponent<Animator>();
         this.camera = (GameObject.Find("Main Camera")).GetComponent<Camera_con>();
         this.manager = (GameObject.Find("Manager")).GetComponent<Manager_con>();
+        this.text = this.dis_HP.GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        this.text.text = "HP:" + this.HP;
         float sp = this.camera.speed;
         // ‘–‚é
         this.animator.SetFloat("Run_Speed", sp);
@@ -68,10 +75,9 @@ public class Ninja_con : MonoBehaviour
         }
         else
         {
-            float death_Time = 0.0f;
             death_Time += Time.deltaTime;
             // ƒ]ƒ“ƒr
-            if (death_Time >= 2.0f)
+            if (death_Time >= 1.0f)
             {
                 Debug.Log("Zombi");
                 this.dead = true;
@@ -152,7 +158,6 @@ public class Ninja_con : MonoBehaviour
             if (this.HP > 0)
             {
                 StartCoroutine("Damage");
-                this.animator.SetBool("isHit", false);
             }
             else
             {

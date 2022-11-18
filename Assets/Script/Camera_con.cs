@@ -46,6 +46,7 @@ public class Camera_con : MonoBehaviour
             StartCoroutine("VolumeUp");
             if (this.dead)
             {
+                stop_BGM();
                 this.speed *= 0;
                 this.manager.setPlay(false);
             }
@@ -82,6 +83,11 @@ public class Camera_con : MonoBehaviour
     void play_BGM()
     {
         this.audio.Play();
+    }
+
+    void stop_BGM()
+    {
+        this.audio.Stop();
     }
 
     IEnumerator VolumeUp()

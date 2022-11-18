@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Manager_con : MonoBehaviour
 {
@@ -72,8 +73,13 @@ public class Manager_con : MonoBehaviour
                 }
                 else if (this.ninja_dead)
                 {
+                    stop_BGM();
                     Debug.Log("You Died!");
-                    this.TEXT.text = "You Died!";
+                    this.TEXT.text = "Game Over! Please any button.";
+                    if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        SceneManager.LoadScene("EndScene");
+                    }
                 }
             }
         }
@@ -92,5 +98,10 @@ public class Manager_con : MonoBehaviour
     void play_BGM()
     {
         this.audio.Play();
+    }
+
+    void stop_BGM()
+    {
+        this.audio.Stop();
     }
 }
