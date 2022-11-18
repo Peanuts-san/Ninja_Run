@@ -16,7 +16,6 @@ public class bird_con : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         force = new Vector3(-10.0f, 0.0f, 0.0f);
-        speed = 0.05f;
         target = GameObject.Find("Ninja").transform;
     }
 
@@ -26,10 +25,7 @@ public class bird_con : MonoBehaviour
         posB = this.transform.position; //©g‚ÌˆÊ’u
         posN = target.position; //”EÒ‚ÌˆÊ’u
         float distance = Vector3.Distance(posB, posN); //”EÒ‚Æ‚Ì‹——£
-        if (distance < 5.0f)
-        {
-            Debug.Log("near");
-            rb.AddForce(force);
-        }
+
+        if (distance < 5.0f)rb.AddForce(force);
     }
 }
