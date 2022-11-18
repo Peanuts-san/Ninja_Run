@@ -9,6 +9,8 @@ public class Camera_con : MonoBehaviour
     Manager_con manager;
     bool play;
 
+    bool yet_Start = true;
+
     public float speed = 1;
     public float maxSpeed = 1.0f;
     public float par = 1.01f;
@@ -17,11 +19,14 @@ public class Camera_con : MonoBehaviour
 
     public float timer;
 
+    AudioSource audio;
+
     // Start is called before the first frame update
     void Start()
     {
         this.ninja = (GameObject.Find("Ninja")).GetComponent<Ninja_con>();
         this.manager = (GameObject.Find("Manager")).GetComponent<Manager_con>();
+        this.audio = GetComponent<AudioSource>();
         this.timer = 0.0f;
     }
 
@@ -30,11 +35,18 @@ public class Camera_con : MonoBehaviour
     {
         this.play = this.manager.getPlay();
         this.dead = ninja.getDead();
-        if (this.manager.play)
+        if (this.play)
         {
+            if (this.yet_Start)
+            {
+                play_BGM();
+                this.yet_Start = false;
+            }
             this.timer += Time.deltaTime;
+            StartCoroutine("VolumeUp");
             if (this.dead)
             {
+                stop_BGM();
                 this.speed *= 0;
                 this.manager.setPlay(false);
             }
@@ -52,6 +64,7 @@ public class Camera_con : MonoBehaviour
             else
             {
                 speed /= par;
+                StartCoroutine("VolumeDown");
                 if (speed < 0.01f)
                 {
                     speed = 0;
@@ -65,5 +78,33 @@ public class Camera_con : MonoBehaviour
     public float getX()
     {
         return transform.position.x;
+    }
+
+    void play_BGM()
+    {
+        this.audio.Play();
+    }
+
+    void stop_BGM()
+    {
+        this.audio.Stop();
+    }
+
+    IEnumerator VolumeUp()
+    {
+        while (audio.volume < 0.4f)
+        {
+            audio.volume += 0.001f;
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
+
+    IEnumerator VolumeDown()
+    {
+        while (audio.volume > 0.0f)
+        {
+            audio.volume -= 0.001f;
+            yield return new WaitForSeconds(1.0f);
+        }
     }
 }

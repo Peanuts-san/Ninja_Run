@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bird_con : MonoBehaviour
+public class Karasu_con : MonoBehaviour
 {
     public Transform target;
-    public float speed;
+    public float speed = 0.5f;
     Vector3 posB;
     Vector3 posN;
     Rigidbody2D rb;
@@ -26,6 +26,6 @@ public class bird_con : MonoBehaviour
         posN = target.position; //”EŽÒ‚ÌˆÊ’u
         float distance = Vector3.Distance(posB, posN); //”EŽÒ‚Æ‚Ì‹——£
 
-        if (distance < 5.0f)rb.AddForce(force);
+        if (distance < 5.0f) rb.AddForce(force * speed);
     }
 }
