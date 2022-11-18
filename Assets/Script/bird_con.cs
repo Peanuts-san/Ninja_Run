@@ -26,7 +26,7 @@ public class bird_con : MonoBehaviour
 
         else
         {
-            Debug.Log("circle !isArea");
+            //Debug.Log("circle !isArea");
             GetComponent<Renderer>().material.color = Color.white;
         }
     }

@@ -69,9 +69,9 @@ public class Ninja_con : MonoBehaviour
         else
         {
             float death_Time = 0.0f;
-            death_Time++;
+            death_Time += Time.deltaTime;
             // ƒ]ƒ“ƒr
-            if (death_Time >= 120.0f)
+            if (death_Time >= 2.0f)
             {
                 Debug.Log("Zombi");
                 this.dead = true;
@@ -87,11 +87,12 @@ public class Ninja_con : MonoBehaviour
 
         // Õ“ËŽ€
         float camera_X = camera.getX();
+        this.death_X = this.transform.position.x;
         float dis = 0;
         if (this.death_X > 0)
         {
             dis = death_X - camera_X;
-            Debug.Log(dis);
+            //Debug.Log(dis);
         }
         if (dis <= -10)
         {
@@ -100,7 +101,7 @@ public class Ninja_con : MonoBehaviour
         }
 
         // —Ž‰ºŽ€
-        if (transform.position.y < -10.0f)
+        if (transform.position.y < -7.5f)
         {
             Debug.Log("rakka desu");
             setDeath();
@@ -135,7 +136,6 @@ public class Ninja_con : MonoBehaviour
     {
         if (collision.gameObject.tag == "wall")
         {
-            this.death_X = transform.position.x;
             Debug.Log("wall");
             this.animator.SetBool("isHit", true);
             this.canPlay = false;

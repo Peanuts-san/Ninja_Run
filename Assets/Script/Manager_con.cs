@@ -9,6 +9,8 @@ public class Manager_con : MonoBehaviour
     public GameObject CD = null;
     Text TEXT;
 
+    AudioSource audio;
+
     float countDown = 4.0f;
     float pre_CountDown = 2.0f;
 
@@ -19,12 +21,15 @@ public class Manager_con : MonoBehaviour
 
     public bool play = false;
 
+    public bool audio_Play = true;
+
     bool ninja_dead;
 
     // Start is called before the first frame update
     void Start()
     {
         this.ninja = (GameObject.Find("Ninja")).GetComponent<Ninja_con>();
+        this.audio = GetComponent<AudioSource>();
         this.TEXT = this.CD.GetComponent<Text>();
     }
 
@@ -52,6 +57,7 @@ public class Manager_con : MonoBehaviour
                     Debug.Log("Start!");
                     this.play = true;
                     this.TEXT.text = "Start!";
+                    play_BGM();
                 }
             }
             else
@@ -71,7 +77,6 @@ public class Manager_con : MonoBehaviour
                 }
             }
         }
-       
     }
 
     public bool getPlay()
@@ -82,5 +87,10 @@ public class Manager_con : MonoBehaviour
     public void setPlay(bool b)
     {
         this.play = b;
+    }
+
+    void play_BGM()
+    {
+        this.audio.Play();
     }
 }
