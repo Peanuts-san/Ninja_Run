@@ -8,8 +8,8 @@ public class Ninja_con : MonoBehaviour
     Rigidbody2D rigid2D;
     Animator animator;
 
-    Camera_con camera;
-    Manager_con manager;
+    public Camera_con camera;
+    public Manager_con manager;
 
     Text text;
     public GameObject dis_HP = null;
