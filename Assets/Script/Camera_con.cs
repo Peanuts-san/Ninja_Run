@@ -12,7 +12,7 @@ public class Camera_con : MonoBehaviour
     bool yet_Start = true;
 
     public float speed = 1;
-    public float maxSpeed = 1.0f;
+    public float maxSpeed = 0.05f;
     public float par = 1.01f;
 
     public float goal = 50.0f;
