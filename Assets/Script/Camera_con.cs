@@ -19,7 +19,7 @@ public class Camera_con : MonoBehaviour
 
     public float timer;
 
-    AudioSource audio;
+    new AudioSource audio;
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +69,7 @@ public class Camera_con : MonoBehaviour
                 {
                     speed = 0;
                     this.manager.setPlay(false);
+                    Manager_con.setGpal(true);
                 }
             }
             transform.Translate(this.speed, 0, 0);

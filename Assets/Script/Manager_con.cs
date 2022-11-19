@@ -9,8 +9,10 @@ public class Manager_con : MonoBehaviour
     Ninja_con ninja;
     public GameObject CD = null;
     Text TEXT;
+    public GameObject dis_button = null;
+    Text tx;
 
-    AudioSource audio;
+    new AudioSource audio;
 
     float countDown = 4.0f;
     float pre_CountDown = 2.0f;
@@ -21,10 +23,11 @@ public class Manager_con : MonoBehaviour
     float now = 1.0f;
 
     public bool play = false;
-
-    public bool audio_Play = true;
+    public bool end = false;
 
     bool ninja_dead;
+
+    public static bool isGoal = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +35,7 @@ public class Manager_con : MonoBehaviour
         this.ninja = (GameObject.Find("Ninja")).GetComponent<Ninja_con>();
         this.audio = GetComponent<AudioSource>();
         this.TEXT = this.CD.GetComponent<Text>();
+        this.tx = this.dis_button.GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -73,13 +77,7 @@ public class Manager_con : MonoBehaviour
                 }
                 else if (this.ninja_dead)
                 {
-                    stop_BGM();
-                    Debug.Log("You Died!");
-                    this.TEXT.text = "Game Over! Please any button.";
-                    if (Input.GetKeyDown(KeyCode.Space))
-                    {
-                        SceneManager.LoadScene("EndScene");
-                    }
+                    StartCoroutine("you_Die");
                 }
             }
         }
@@ -95,13 +93,44 @@ public class Manager_con : MonoBehaviour
         this.play = b;
     }
 
+    public bool getEnd()
+    {
+        return this.end;
+    }
+
+    public static bool getGoal()
+    {
+        return isGoal;
+    }
+
+    public static void setGpal(bool b)
+    {
+        isGoal = b;
+    }
+
     void play_BGM()
     {
+        this.audio.loop = true;
         this.audio.Play();
     }
 
     void stop_BGM()
     {
+        this.audio.loop = false;
         this.audio.Stop();
+    }
+
+    IEnumerator you_Die()
+    {
+        stop_BGM();
+        this.end = true;
+        Debug.Log("You Died!");
+        this.TEXT.text = "Game Over!";
+        this.tx.text = "Press B";
+        yield return new WaitForSeconds(1.0f);
+        if (Input.GetButtonDown("Jump"))
+        {
+            SceneManager.LoadScene("EndScene");
+        }
     }
 }

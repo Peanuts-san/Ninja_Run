@@ -8,26 +8,37 @@ public class Ninja_con : MonoBehaviour
     Rigidbody2D rigid2D;
     Animator animator;
 
-    public Camera_con camera;
-    public Manager_con manager;
+    new Camera_con camera;
+    Manager_con manager;
+    Audio_con ad;
 
-    Text text;
+    new AudioSource audio;
+    public AudioClip jump_Clip;
+    public AudioClip hit_Clip;
+
+    Text tx_1;
     public GameObject dis_HP = null;
+    Text tx_2;
+    public GameObject dis_Jump = null;
 
     public float jumpForce = 680.0f;
     public float jumpSpeed = 5;
     public int jumpLimit = 2;
 
-    public int HP = 3;
-    public int jumpCount = 0;
+    public static int HP = 3;
+    public static int jumpCount = 0;
     public int secondJump = 0;
 
     public bool canPlay = true;
 
+    float camera_X;
     float death_X;
+    float dis;
     public bool dead = false;
     public bool isDamage = false;
     public bool isArea;
+
+    public bool yet_Death = false;
 
     float death_Time = 0.0f;
 
@@ -38,13 +49,21 @@ public class Ninja_con : MonoBehaviour
         this.animator = GetComponent<Animator>();
         this.camera = (GameObject.Find("Main Camera")).GetComponent<Camera_con>();
         this.manager = (GameObject.Find("Manager")).GetComponent<Manager_con>();
-        this.text = this.dis_HP.GetComponent<Text>();
+        this.ad = (GameObject.Find("AudioManager")).GetComponent<Audio_con>();
+        this.audio = GetComponent<AudioSource>();
+        this.tx_1 = this.dis_HP.GetComponent<Text>();
+        this.tx_2 = this.dis_Jump.GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.text.text = "HP:" + this.HP;
+        if (this.manager.getPlay())
+        {
+            this.tx_1.text = HP.ToString("D");
+            this.tx_2.text = jumpCount.ToString("D");
+        }
+
         float sp = this.camera.speed;
         // 走る
         this.animator.SetFloat("Run_Speed", sp);
@@ -65,8 +84,9 @@ public class Ninja_con : MonoBehaviour
         {
             if (vy >= -jumpSpeed && vy <= jumpSpeed && secondJump < jumpLimit)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetButtonDown("Jump"))
                 {
+                    jump_SE();
                     this.rigid2D.AddForce(transform.up * this.jumpForce);
                     jumpCount++;
                     secondJump++;
@@ -80,7 +100,7 @@ public class Ninja_con : MonoBehaviour
             if (death_Time >= 1.0f)
             {
                 Debug.Log("Zombi");
-                this.dead = true;
+                setDeath();
             }
         }
 
@@ -92,15 +112,11 @@ public class Ninja_con : MonoBehaviour
         }
 
         // 衝突死
-        float camera_X = camera.getX();
+        this.camera_X = camera.getX();
         this.death_X = this.transform.position.x;
-        float dis = 0;
-        if (this.death_X > 0)
-        {
-            dis = death_X - camera_X;
-            //Debug.Log(dis);
-        }
-        if (dis <= -10)
+        this.dis = this.camera_X - this.death_X;
+        Debug.Log("camera_X:" + this.camera_X + ", death_X:" + this.death_X + ", distance:" + this.dis);
+        if (this.dis > 6.5f)
         {
             Debug.Log("shototu desu");
             setDeath();
@@ -118,12 +134,7 @@ public class Ninja_con : MonoBehaviour
         if (HP <= 0)
         {
             this.animator.SetBool("isHit", true);
-        }
-
-        // 死亡
-        if (this.dead)
-        {
-            this.manager.setPlay(false);
+            setDeath();
         }
 
         // アニメーションスピード
@@ -144,6 +155,7 @@ public class Ninja_con : MonoBehaviour
         {
             Debug.Log("wall");
             this.animator.SetBool("isHit", true);
+            hit_SE();
             this.canPlay = false;
         }
     }
@@ -155,8 +167,9 @@ public class Ninja_con : MonoBehaviour
         {
             Debug.Log("bird");
             this.animator.SetBool("isHit", true);
-            if (this.HP > 0)
+            if (HP > 0)
             {
+                hit_SE();
                 StartCoroutine("Damage");
             }
             else
@@ -169,8 +182,8 @@ public class Ninja_con : MonoBehaviour
 
     IEnumerator Damage()
     {
-        this.HP--;
-        Debug.Log(this.HP);
+        HP--;
+        Debug.Log(HP);
         isDamage = true;
         yield return new WaitForSeconds(2.0f);
         this.animator.SetBool("isHit", false);
@@ -185,8 +198,12 @@ public class Ninja_con : MonoBehaviour
 
     private void setDeath()
     {
-        this.dead = true;
-        this.canPlay = false;
+        {
+            this.dead = true;
+            this.canPlay = false;
+            this.manager.setPlay(false);
+            this.yet_Death = false;
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -197,5 +214,25 @@ public class Ninja_con : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "DangerArea") isArea = false;
+    }
+
+    void jump_SE()
+    {
+        this.audio.PlayOneShot(this.jump_Clip);
+    }
+
+    void hit_SE()
+    {
+        this.audio.PlayOneShot(this.hit_Clip);
+    }
+
+    public static int getJump()
+    {
+        return jumpCount;
+    }
+
+    public static int getHP()
+    {
+        return HP;
     }
 }
