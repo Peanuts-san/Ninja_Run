@@ -8,6 +8,8 @@ public class Audio_con : MonoBehaviour
 
     new AudioSource audio;
 
+    public AudioClip clip_1, clip_2;
+
     public bool yetPlay = true;
 
     // Start is called before the first frame update
@@ -23,13 +25,26 @@ public class Audio_con : MonoBehaviour
         {
             dead_SE();
         }
+        else if (Manager_con.getGoal())
+        {
+            goal_SE();
+        }
     }
 
     public void dead_SE()
     {
         if (this.yetPlay)
         {
-            this.audio.Play();
+            this.audio.PlayOneShot(this.clip_1);
+            this.yetPlay = false;
+        }
+    }
+
+    public void goal_SE()
+    {
+        if (this.yetPlay)
+        {
+            this.audio.PlayOneShot(this.clip_2);
             this.yetPlay = false;
         }
     }

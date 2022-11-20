@@ -14,6 +14,10 @@ public class Result_con : MonoBehaviour
     public GameObject JUMP = null;
     Text TX_4;
     public GameObject SCORE = null;
+    Text TX_5;
+    public GameObject NEW = null;
+    Text TX_6;
+    public GameObject PT = null;
 
     public bool isClear;
     public int nhp;
@@ -21,6 +25,8 @@ public class Result_con : MonoBehaviour
 
     public int score = 0;
     public float p = 0;
+
+    public static int best = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -29,6 +35,8 @@ public class Result_con : MonoBehaviour
         this.TX_2 = this.HP.GetComponent<Text>();
         this.TX_3 = this.JUMP.GetComponent<Text>();
         this.TX_4 = this.SCORE.GetComponent<Text>();
+        this.TX_5 = this.NEW.GetComponent<Text>();
+        this.TX_6 = this.PT.GetComponent<Text>();
         this.isClear = Manager_con.getGoal();
         this.nhp = Ninja_con.getHP();
         this.njp = Ninja_con.getJump();
@@ -37,12 +45,12 @@ public class Result_con : MonoBehaviour
         {
             this.TX_1.text = "Game Clear!";
             this.score += 1000;
-            p = 1000;
+            p = 10000;
         }
         else
         {
             this.TX_1.text = "Game Over!";
-            p = 100;
+            p = 1000;
         }
 
         this.TX_2.text = "HP:" + this.nhp;
@@ -55,17 +63,24 @@ public class Result_con : MonoBehaviour
         }
 
         this.TX_4.text = "Score:" + this.score;
+        if (this.score > best)
+        {
+            best = this.score;
+            this.TX_5.text = "New!";
+        }
     }
 
     private void Update()
     {
         if (Input.GetButtonDown("Jump"))
         {
+            this.TX_6.text = "Play:B        ";
             SceneManager.LoadScene("GameScene");
         }
         else if (Input.GetButtonDown("Submit"))
         {
-            Application.Quit();
+            this.TX_6.text = "       Title:A";
+            SceneManager.LoadScene("TitleScene");
         }
     }
 }

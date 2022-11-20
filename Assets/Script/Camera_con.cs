@@ -69,7 +69,7 @@ public class Camera_con : MonoBehaviour
                 {
                     speed = 0;
                     this.manager.setPlay(false);
-                    Manager_con.setGpal(true);
+                    Manager_con.setGoal(true);
                 }
             }
             transform.Translate(this.speed, 0, 0);

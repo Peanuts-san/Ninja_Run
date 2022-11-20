@@ -79,6 +79,10 @@ public class Manager_con : MonoBehaviour
                 {
                     StartCoroutine("you_Die");
                 }
+                else if (isGoal)
+                {
+                    StartCoroutine("clear");
+                }
             }
         }
     }
@@ -103,7 +107,7 @@ public class Manager_con : MonoBehaviour
         return isGoal;
     }
 
-    public static void setGpal(bool b)
+    public static void setGoal(bool b)
     {
         isGoal = b;
     }
@@ -128,6 +132,19 @@ public class Manager_con : MonoBehaviour
         this.TEXT.text = "Game Over!";
         this.tx.text = "Press B";
         yield return new WaitForSeconds(1.0f);
+        if (Input.GetButtonDown("Jump"))
+        {
+            SceneManager.LoadScene("EndScene");
+        }
+    }
+
+    IEnumerator clear()
+    {
+        stop_BGM();
+        Debug.Log("Reached");
+        this.TEXT.text = "Game Clear!";
+        this.tx.text = "Press B";
+        yield return new WaitForSeconds(2.0f);
         if (Input.GetButtonDown("Jump"))
         {
             SceneManager.LoadScene("EndScene");

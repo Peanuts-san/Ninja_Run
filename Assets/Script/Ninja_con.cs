@@ -53,6 +53,8 @@ public class Ninja_con : MonoBehaviour
         this.audio = GetComponent<AudioSource>();
         this.tx_1 = this.dis_HP.GetComponent<Text>();
         this.tx_2 = this.dis_Jump.GetComponent<Text>();
+        HP = 3;
+        jumpCount = 0;
     }
 
     // Update is called once per frame
@@ -88,7 +90,10 @@ public class Ninja_con : MonoBehaviour
                 {
                     jump_SE();
                     this.rigid2D.AddForce(transform.up * this.jumpForce);
-                    jumpCount++;
+                    if (this.manager.getPlay())
+                    {
+                        jumpCount++;
+                    }
                     secondJump++;
                 }
             }
@@ -234,5 +239,10 @@ public class Ninja_con : MonoBehaviour
     public static int getHP()
     {
         return HP;
+    }
+
+    public bool getIsDamage()
+    {
+        return this.isDamage;
     }
 }
